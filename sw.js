@@ -1,4 +1,4 @@
-const CACHE = 'mp-v3';
+const CACHE = 'mp-v4';
 const SHELL = [
   '/Pitch-Speed/',
   '/Pitch-Speed/index.html',
@@ -11,24 +11,24 @@ self.addEventListener('install', e => {
   self.skipWaiting();
 });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if(url.pathname.includes('/api/') || url.hostname==='127.0.0.1'){
-    e.respondWith(fetch(e.request).catch(()=>new Response('{"error":"offline"}')));
+  if(url.pathname.includes('/api/') || url.hostname === '127.0.0.1'){
+    e.respondWith(fetch(e.request).catch(() => new Response('{"error":"offline"}')));
     return;
   }
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      if(cached) return cached;
-      return fetch(e.request).then(res => {
-        if(res && res.status===200 && res.type==='basic'){
-          caches.open(CACHE).then(c=>c.put(e.request,res.clone()));
-        }
-        return res;
-      });
-    })
+    fetch(e.request).then(res => {
+      if(res && res.status === 200){
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+      }
+      return res;
+    }).catch(() => caches.match(e.request))
   );
 });

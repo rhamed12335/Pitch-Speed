@@ -1044,10 +1044,11 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
   font:500 12px/1 var(--sans);color:var(--amber);
 }
 #snapBanner.on{display:flex}
-/* Push snap banner below Dynamic Island / notch in PWA standalone */
+/* Push snap banner below Dynamic Island / notch on all mobile */
 @media(max-width:600px){
   #snapBanner.on{
     padding-top:calc(env(safe-area-inset-top,0px) + 8px);
+    margin-top:0;
   }
 }
 #snapBanner strong{font-weight:700}
@@ -2350,31 +2351,64 @@ function streakHTML(items){
 
 /* PWA STANDALONE MODE — fixes for installed iPhone app */
 @media all and (display-mode: standalone) {
-  /* Push ALL content below the Dynamic Island / status bar */
-  #content{
-    padding-top:env(safe-area-inset-top, 44px);
-  }
-  /* Bottom nav: fill the home indicator gap cleanly — no white space */
+  #content{ padding-top:env(safe-area-inset-top,44px); }
   #mobileNav{
-    height:auto !important;
-    padding-top:10px;
-    padding-bottom:calc(env(safe-area-inset-bottom, 20px) + 2px) !important;
+    height:auto!important;
+    padding-top:8px!important;
+    padding-bottom:env(safe-area-inset-bottom,20px)!important;
   }
-  /* Nav icons: sit at top of their area, not centered (which pushes into gap) */
-  .mnb{
-    padding-bottom:0 !important;
-    justify-content:flex-start !important;
-    padding-top:6px !important;
-  }
-  /* Wrap: extra bottom room for taller nav in standalone */
-  #wrap{
-    padding-bottom:calc(80px + env(safe-area-inset-bottom, 20px)) !important;
-  }
-  /* When no snapshot loaded, top nav area has correct breathing room */
-  #snapBanner{
-    margin-top:0;
-  }
+  .mnb{ padding-top:4px!important; padding-bottom:0!important; justify-content:flex-start!important; }
+  #wrap{ padding-bottom:calc(80px + env(safe-area-inset-bottom,20px))!important; }
 }
+
+/* APPLY SAFE AREA FIXES VIA JS — bypasses service worker cache */
+(function(){
+  function applyFixes(){
+    var isStandalone = window.navigator.standalone === true ||
+      window.matchMedia('(display-mode: standalone)').matches;
+    var isMobile = window.innerWidth <= 600;
+    if(!isMobile) return;
+
+    // Get actual safe area values via a test element
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;top:env(safe-area-inset-top,0px);left:0;width:1px;height:1px;pointer-events:none;visibility:hidden;';
+    document.body.appendChild(t);
+    var topInset = t.getBoundingClientRect().top || 0;
+    document.body.removeChild(t);
+
+    var nav = document.getElementById('mobileNav');
+    var content = document.getElementById('content');
+    var snap = document.getElementById('snapBanner');
+
+    if(isStandalone && content){
+      // Push content below Dynamic Island
+      content.style.paddingTop = 'env(safe-area-inset-top, 44px)';
+    }
+
+    if(snap){
+      // Always push snap banner below island on mobile
+      snap.style.paddingTop = 'calc(env(safe-area-inset-top, 0px) + 8px)';
+    }
+
+    if(nav && isStandalone){
+      // Fill home indicator gap — no white bar
+      nav.style.paddingBottom = 'env(safe-area-inset-bottom, 20px)';
+      nav.style.height = 'auto';
+      // Tighten icon layout
+      nav.querySelectorAll('.mnb').forEach(function(b){
+        b.style.paddingTop = '6px';
+        b.style.paddingBottom = '0';
+        b.style.justifyContent = 'flex-start';
+      });
+    }
+  }
+  // Run after DOM ready
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', applyFixes);
+  } else {
+    applyFixes();
+  }
+})();
 
 /* PWA SERVICE WORKER */
 if('serviceWorker' in navigator){
