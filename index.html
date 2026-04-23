@@ -1044,6 +1044,12 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
   font:500 12px/1 var(--sans);color:var(--amber);
 }
 #snapBanner.on{display:flex}
+/* Push snap banner below Dynamic Island / notch in PWA standalone */
+@media(max-width:600px){
+  #snapBanner.on{
+    padding-top:calc(env(safe-area-inset-top,0px) + 8px);
+  }
+}
 #snapBanner strong{font-weight:700}
 .snap-clear{
   margin-left:auto;background:none;border:1px solid rgba(217,119,6,.35);
@@ -2342,13 +2348,31 @@ function streakHTML(items){
 <script>
 /* ─── PWA: Register Service Worker ─── */
 
-/* PWA STANDALONE — extra top padding for iPhone status bar */
+/* PWA STANDALONE MODE — fixes for installed iPhone app */
 @media all and (display-mode: standalone) {
+  /* Push ALL content below the Dynamic Island / status bar */
   #content{
-    padding-top:env(safe-area-inset-top, 0px);
+    padding-top:env(safe-area-inset-top, 44px);
   }
+  /* Bottom nav: fill the home indicator gap cleanly — no white space */
+  #mobileNav{
+    height:auto !important;
+    padding-top:10px;
+    padding-bottom:calc(env(safe-area-inset-bottom, 20px) + 2px) !important;
+  }
+  /* Nav icons: sit at top of their area, not centered (which pushes into gap) */
+  .mnb{
+    padding-bottom:0 !important;
+    justify-content:flex-start !important;
+    padding-top:6px !important;
+  }
+  /* Wrap: extra bottom room for taller nav in standalone */
+  #wrap{
+    padding-bottom:calc(80px + env(safe-area-inset-bottom, 20px)) !important;
+  }
+  /* When no snapshot loaded, top nav area has correct breathing room */
   #snapBanner{
-    padding-top:calc(env(safe-area-inset-top,0px) + 6px);
+    margin-top:0;
   }
 }
 
