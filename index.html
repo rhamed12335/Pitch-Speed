@@ -760,55 +760,116 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
 @media(max-width:600px){
   :root{--nav-h:0px}
   #nav{display:none!important}
+  .nav-spacer,.nav-sb-btn{display:none}
+
+  /* Bottom nav — iPhone safe area */
   #mobileNav{
     position:fixed;bottom:0;left:0;right:0;z-index:500;
     display:flex!important;
     background:#fff;border-top:1px solid #e2ddd6;
-    box-shadow:0 -2px 12px rgba(0,0,0,.1);
-    height:60px;
+    box-shadow:0 -2px 12px rgba(0,0,0,.08);
+    height:50px;
     padding-bottom:env(safe-area-inset-bottom,0px);
+    height:calc(50px + env(safe-area-inset-bottom,0px));
   }
   .mnb{
     flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;background:transparent;border:none;color:#9b9185;
+    gap:2px;background:transparent;border:none;color:#9b9185;
     -webkit-tap-highlight-color:transparent;touch-action:manipulation;
-    padding:6px 2px 0;min-width:0;cursor:pointer;
+    padding:4px 2px 0;min-width:0;cursor:pointer;
   }
   .mnb.on{color:#C0392B}
-  .mnb-icon{font-size:19px;line-height:1}
-  .mnb-lbl{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;font-family:monospace}
-  #wrap{padding:10px 10px calc(72px + env(safe-area-inset-bottom,0px))}
-  .ph-name{font-size:30px}
-  .kpi-strip{grid-template-columns:1fr 1fr}
-  .kpi:nth-child(2){border-right:none}
-  .kpi:nth-child(3),.kpi:nth-child(4),.kpi:nth-child(5),.kpi:nth-child(6){border-top:1px solid var(--line)}
-  .kpi:nth-child(odd){border-right:1px solid var(--line)}
-  .kpi:nth-child(even){border-right:none}
-  .kpi{padding:12px 14px 10px}
-  .kpi-val{font-size:26px}
-  .ov-main,.duo,.lg{grid-template-columns:1fr;gap:12px}
-  .pgrid{grid-template-columns:1fr 1fr;gap:10px}
-  .igrid{grid-template-columns:repeat(3,1fr);gap:8px}
-  .sg-grid{grid-template-columns:1fr;gap:10px}
+  .mnb-icon{font-size:17px;line-height:1}
+  .mnb-lbl{font-size:8px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;font-family:monospace}
+
+  /* Wrap — account for top status bar in standalone + bottom nav */
+  #wrap{
+    padding:8px 10px calc(60px + env(safe-area-inset-bottom,0px));
+  }
+
+  /* Snapshot banner tighter */
+  #snapBanner{font-size:11px;padding:6px 14px}
+
+  /* Page header — compact */
+  .ph{margin-bottom:10px;padding-bottom:10px;gap:8px}
+  .ph-name{font-size:22px;letter-spacing:.3px}
+  .ph-tags{gap:4px;margin-top:6px}
+  .tag{font-size:9px;padding:3px 7px;border-radius:5px}
+
+  /* KPI strip — 3 col, very compact */
+  .kpi-strip{grid-template-columns:1fr 1fr 1fr;margin-bottom:12px}
+  .kpi:nth-child(3){border-right:none}
+  .kpi:nth-child(4),.kpi:nth-child(5),.kpi:nth-child(6){border-top:1px solid var(--line);border-right:none}
+  .kpi:nth-child(4){border-right:1px solid var(--line)}
+  .kpi:nth-child(5){border-right:1px solid var(--line)}
+  .kpi{padding:8px 10px 7px}
+  .kpi-accent{height:2px}
+  .kpi-lbl{font-size:7px;letter-spacing:1px;margin-bottom:4px}
+  .kpi-val{font-size:20px}
+  .kpi-sub{font-size:9px;margin-top:3px}
+
+  /* Cards tighter */
+  .ch{padding:9px 12px}
+  .ct{font-size:11px}
+  .cm{font-size:9px}
+  .cb{padding:10px 12px}
+
+  /* Layouts */
+  .ov-main,.duo,.lg{grid-template-columns:1fr;gap:10px}
+  .pgrid{grid-template-columns:1fr 1fr;gap:8px}
+  .igrid{grid-template-columns:repeat(3,1fr);gap:6px}
+  .sg-grid{grid-template-columns:1fr;gap:8px}
   .alert-grid{grid-template-columns:1fr}
-  .cb{padding:12px 14px}
-  .ch{padding:10px 14px}
-  .at-range,.at-count{display:none}
+
+  /* Pitch cards compact */
+  .pc-body{padding:9px 11px}
+  .pc-velo{font-size:22px}
+  .pc-pct{font-size:22px}
+
+  /* Count matrix */
   .mx{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .mx table{min-width:500px}
-  .split-row{grid-template-columns:36px 1fr 56px 40px;gap:5px}
+  .mx table{min-width:480px}
+  .mx th,.mx td{padding:6px 4px;font-size:11px}
+
+  /* Splits */
+  .split-row{grid-template-columns:32px 1fr 52px 38px;gap:4px;padding:8px 12px}
   .sp-range{display:none}
-  .pb-layout{grid-template-columns:1fr;gap:12px}
+
+  /* Arsenal table */
+  .at-range,.at-count{display:none}
+
+  /* Prop builder */
+  .pb-layout{grid-template-columns:1fr;gap:10px}
   .pb-filters{position:static}
-  .pb-count-grid{grid-template-columns:repeat(4,1fr);gap:4px}
-  .pb-cnt{padding:9px 2px;font-size:10px}
-  .pb-pills{gap:5px}
+  .pb-fsec{padding:10px 12px}
+  .pb-fhdr{padding:10px 12px}
+  .pb-count-grid{grid-template-columns:repeat(4,1fr);gap:3px}
+  .pb-cnt{padding:8px 2px;font-size:10px}
+  .pb-pills{gap:4px}
+  .pb-pill{padding:7px 10px;font-size:10px}
+  .pb-run-btn{padding:11px}
+  .pb-v-dir{font-size:32px}
+  .pb-v-pct{font-size:40px}
+  .pb-ev-row{padding:8px 12px}
+
+  /* Streak table */
   .dt{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .ph{margin-bottom:14px;padding-bottom:14px}
-  .tag{font-size:10px;padding:3px 8px}
-  .nav-spacer,.nav-sb-btn{display:none}
+
+  /* Inning cards */
+  .icard{padding:8px 8px 8px 12px}
+  .i-velo{font-size:20px}
+  .i-pct{font-size:14px}
+
+  /* Alert cards */
+  .alert-pct{font-size:26px}
+  .alert-banner{padding:10px 12px 8px}
+
+  /* Trans cards */
+  .trans-card{padding:10px 12px}
 }
 @media(max-width:380px){
+  .ph-name{font-size:18px}
+  .kpi-val{font-size:18px}
   .pgrid{grid-template-columns:1fr}
   .igrid{grid-template-columns:repeat(2,1fr)}
   .pb-count-grid{grid-template-columns:repeat(3,1fr)}
@@ -2280,6 +2341,16 @@ function streakHTML(items){
 
 <script>
 /* ─── PWA: Register Service Worker ─── */
+
+/* PWA STANDALONE — extra top padding for iPhone status bar */
+@media all and (display-mode: standalone) {
+  #content{
+    padding-top:env(safe-area-inset-top, 0px);
+  }
+  #snapBanner{
+    padding-top:calc(env(safe-area-inset-top,0px) + 6px);
+  }
+}
 
 /* PWA SERVICE WORKER */
 if('serviceWorker' in navigator){
