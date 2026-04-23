@@ -1,10 +1,10 @@
-const CACHE = 'mp-v2';
+const CACHE = 'mp-v3';
 const SHELL = [
-  '/money-printer/',
-  '/money-printer/index.html',
-  '/money-printer/manifest.json',
-  '/money-printer/icon-192.png',
-  '/money-printer/icon-512.png'
+  '/Pitch-Speed/',
+  '/Pitch-Speed/index.html',
+  '/Pitch-Speed/manifest.json',
+  '/Pitch-Speed/icon-192.png',
+  '/Pitch-Speed/icon-512.png'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL).catch(()=>{})));
