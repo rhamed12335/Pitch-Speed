@@ -1053,120 +1053,111 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
 <body>
 
 <!-- ═══════ PIN LOCK SCREEN ═══════ -->
-<div id="pinLock" style="
-  position:fixed;inset:0;z-index:99999;
-  background:#1A2E1A;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-family:-apple-system,sans-serif;
-  padding:32px;
-">
-  <div style="font-size:56px;margin-bottom:8px">⚾</div>
-  <div style="font:900 28px/1 'Barlow Condensed',Impact,sans-serif;color:#E8F0E8;letter-spacing:1px;margin-bottom:4px">MONEY PRINTER</div>
-  <div style="font:400 12px/1 monospace;color:#5A7A5A;letter-spacing:2px;text-transform:uppercase;margin-bottom:40px">Enter PIN to continue</div>
+<div id="pinLock" style="position:fixed;inset:0;z-index:99999;background:#1A2E1A;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;touch-action:manipulation;">
 
-  <!-- Dots -->
-  <div style="display:flex;gap:16px;margin-bottom:40px" id="pinDots">
-    <div class="pdot" style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);transition:.15s"></div>
-    <div class="pdot" style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);transition:.15s"></div>
-    <div class="pdot" style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);transition:.15s"></div>
-    <div class="pdot" style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);transition:.15s"></div>
+  <div style="font-size:52px;margin-bottom:6px;line-height:1">⚾</div>
+  <div style="font-size:30px;font-weight:900;color:#E8F0E8;letter-spacing:2px;margin-bottom:4px;font-family:Impact,sans-serif">MONEY PRINTER</div>
+  <div style="font-size:11px;color:#5A7A5A;letter-spacing:3px;text-transform:uppercase;margin-bottom:36px;font-family:monospace">ENTER PIN</div>
+
+  <div id="pinDots" style="display:flex;gap:18px;margin-bottom:44px">
+    <div class="pd" id="d0" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
+    <div class="pd" id="d1" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
+    <div class="pd" id="d2" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
+    <div class="pd" id="d3" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
   </div>
 
-  <!-- Keypad -->
-  <div style="display:grid;grid-template-columns:repeat(3,80px);gap:12px">
-    <button onclick="pinPress('1')" class="pkb">1</button>
-    <button onclick="pinPress('2')" class="pkb">2</button>
-    <button onclick="pinPress('3')" class="pkb">3</button>
-    <button onclick="pinPress('4')" class="pkb">4</button>
-    <button onclick="pinPress('5')" class="pkb">5</button>
-    <button onclick="pinPress('6')" class="pkb">6</button>
-    <button onclick="pinPress('7')" class="pkb">7</button>
-    <button onclick="pinPress('8')" class="pkb">8</button>
-    <button onclick="pinPress('9')" class="pkb">9</button>
-    <button class="pkb" style="visibility:hidden"></button>
-    <button onclick="pinPress('0')" class="pkb">0</button>
-    <button onclick="pinPress('⌫')" class="pkb" style="font-size:22px">⌫</button>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:280px">
+    <button id="pk1" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">1</button>
+    <button id="pk2" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">2</button>
+    <button id="pk3" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">3</button>
+    <button id="pk4" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">4</button>
+    <button id="pk5" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">5</button>
+    <button id="pk6" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">6</button>
+    <button id="pk7" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">7</button>
+    <button id="pk8" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">8</button>
+    <button id="pk9" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">9</button>
+    <div></div>
+    <button id="pk0" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">0</button>
+    <button id="pkdel" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:24px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">⌫</button>
   </div>
 
-  <style>
-    .pkb {
-      width:80px;height:80px;border-radius:50%;border:none;
-      background:rgba(255,255,255,.1);
-      color:#E8F0E8;font-size:26px;font-weight:700;
-      cursor:pointer;transition:background .1s;
-      -webkit-tap-highlight-color:transparent;
-      font-family:-apple-system,sans-serif;
-    }
-    .pkb:active { background:rgba(192,57,43,.6) !important; }
-  </style>
-
-  <div id="pinError" style="margin-top:24px;font:600 13px/1 monospace;color:#C0392B;opacity:0;transition:opacity .2s">
+  <div id="pinError" style="margin-top:28px;font-size:13px;font-weight:600;color:#C0392B;opacity:0;font-family:monospace;transition:opacity 0.2s">
     Wrong PIN — try again
   </div>
+
 </div>
 
 <script>
 (function(){
-  const CORRECT = '2222';
-  const SESSION_KEY = 'mp_unlocked';
+  var CORRECT = '2222';
+  var entered = '';
 
   // Already unlocked this session?
-  if(sessionStorage.getItem(SESSION_KEY) === '1'){
-    document.getElementById('pinLock').style.display = 'none';
-    return;
+  try { if(sessionStorage.getItem('mp_pin')==='1'){ document.getElementById('pinLock').style.display='none'; return; } } catch(e){}
+
+  function updateDots(){
+    for(var i=0;i<4;i++){
+      document.getElementById('d'+i).style.background = i < entered.length ? '#C0392B' : 'rgba(255,255,255,0.2)';
+    }
   }
 
-  let entered = '';
+  function flash(el){
+    el.style.background='rgba(192,57,43,0.7)';
+    setTimeout(function(){ el.style.background='rgba(255,255,255,0.12)'; }, 120);
+  }
 
-  window.pinPress = function(k){
-    if(k === '⌫'){
-      entered = entered.slice(0, -1);
-    } else if(k === '' || entered.length >= 4){
+  function press(k){
+    var el = document.getElementById('pk'+k);
+    if(el) flash(el);
+    if(k==='del'){
+      entered = entered.slice(0,-1);
+      updateDots();
       return;
-    } else {
-      entered += k;
     }
-
-    // Update dots
-    const dots = document.querySelectorAll('.pdot');
-    dots.forEach((d, i) => {
-      d.style.background = i < entered.length ? '#C0392B' : 'rgba(255,255,255,.15)';
-    });
-
-    // Check
-    if(entered.length === 4){
-      if(entered === CORRECT){
-        sessionStorage.setItem(SESSION_KEY, '1');
-        const lock = document.getElementById('pinLock');
-        lock.style.transition = 'opacity .3s';
-        lock.style.opacity = '0';
-        setTimeout(() => lock.style.display = 'none', 300);
+    if(entered.length>=4) return;
+    entered += k;
+    updateDots();
+    if(entered.length===4){
+      if(entered===CORRECT){
+        try{ sessionStorage.setItem('mp_pin','1'); }catch(e){}
+        var lock=document.getElementById('pinLock');
+        lock.style.opacity='0';
+        lock.style.transition='opacity 0.3s';
+        setTimeout(function(){ lock.style.display='none'; }, 320);
       } else {
-        // Wrong — shake and reset
-        document.getElementById('pinError').style.opacity = '1';
-        const dotsEl = document.getElementById('pinDots');
-        dotsEl.style.transition = 'transform .05s';
-        let shakes = 0;
-        const shake = setInterval(() => {
-          dotsEl.style.transform = shakes % 2 === 0 ? 'translateX(8px)' : 'translateX(-8px)';
-          shakes++;
-          if(shakes > 5){
-            clearInterval(shake);
-            dotsEl.style.transform = 'translateX(0)';
-            entered = '';
-            dots.forEach(d => d.style.background = 'rgba(255,255,255,.15)');
-            setTimeout(() => document.getElementById('pinError').style.opacity = '0', 1200);
-          }
-        }, 60);
+        document.getElementById('pinError').style.opacity='1';
+        var dots=document.getElementById('pinDots');
+        var n=0;
+        var iv=setInterval(function(){
+          dots.style.transform = n%2===0?'translateX(10px)':'translateX(-10px)';
+          n++;
+          if(n>5){ clearInterval(iv); dots.style.transform='translateX(0)'; }
+        },55);
+        setTimeout(function(){
+          entered='';
+          updateDots();
+          document.getElementById('pinError').style.opacity='0';
+        },1000);
       }
     }
-  };
+  }
 
-  // Also support physical keyboard
-  document.addEventListener('keydown', e => {
-    if(document.getElementById('pinLock').style.display === 'none') return;
-    if(e.key >= '0' && e.key <= '9') pinPress(e.key);
-    if(e.key === 'Backspace') pinPress('⌫');
+  document.getElementById('pk1').addEventListener('click',function(){press('1')});
+  document.getElementById('pk2').addEventListener('click',function(){press('2')});
+  document.getElementById('pk3').addEventListener('click',function(){press('3')});
+  document.getElementById('pk4').addEventListener('click',function(){press('4')});
+  document.getElementById('pk5').addEventListener('click',function(){press('5')});
+  document.getElementById('pk6').addEventListener('click',function(){press('6')});
+  document.getElementById('pk7').addEventListener('click',function(){press('7')});
+  document.getElementById('pk8').addEventListener('click',function(){press('8')});
+  document.getElementById('pk9').addEventListener('click',function(){press('9')});
+  document.getElementById('pk0').addEventListener('click',function(){press('0')});
+  document.getElementById('pkdel').addEventListener('click',function(){press('del')});
+
+  document.addEventListener('keydown',function(e){
+    if(document.getElementById('pinLock').style.display==='none') return;
+    if(e.key>='0'&&e.key<='9') press(e.key);
+    if(e.key==='Backspace') press('del');
   });
 })();
 </script>
