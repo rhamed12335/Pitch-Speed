@@ -1283,8 +1283,8 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
     <div id="wrap">
       <div class="empty">
         <div class="empty-ball">⚾</div>
-        <div class="empty-title">Load Live Data</div>
-        <div class="empty-sub">Configure your range in the panel, hit Load, then select a pitcher from the list.</div>
+        <div class="empty-title">Money Printer</div>
+        <div class="empty-sub">Tap <strong>☰ Menu</strong> at the bottom to open the panel, load data, then select a pitcher.</div>
       </div>
     </div>
   </div>
@@ -1462,7 +1462,7 @@ id('snapClearBtn').onclick=()=>{
   const isMobile=()=>window.innerWidth<=900;
   function sbShow(){
     app.classList.remove('sb-off');
-    if(isMobile()&&scrim)scrim.style.display='block';
+    if(scrim)scrim.style.display='block';
     localStorage.setItem('mp_sb','1');
   }
   function sbHide(){
@@ -1470,6 +1470,7 @@ id('snapClearBtn').onclick=()=>{
     if(scrim)scrim.style.display='none';
     localStorage.setItem('mp_sb','0');
   }
+  // Always hide sidebar behind drawer on mobile
   if(isMobile()){sbHide();}
   else if(localStorage.getItem('mp_sb')==='0'){sbHide();}
   id('navSbBtn').onclick=()=>app.classList.contains('sb-off')?sbShow():sbHide();
@@ -1480,6 +1481,9 @@ id('snapClearBtn').onclick=()=>{
     if(isMobile()&&!app.classList.contains('sb-off'))scrim.style.display='block';
     else if(!isMobile())scrim.style.display='none';
   });
+  // Expose sbShow globally so mobile nav menu button can call it
+  window._sbShow=sbShow;
+  window._sbHide=sbHide;
 })();
 
 /* ─── MOBILE NAV ─── */
@@ -1487,45 +1491,47 @@ id('snapClearBtn').onclick=()=>{
   const mNav = id('mobileNav');
   if (!mNav) return;
 
-  function isMobile(){ return window.innerWidth <= 600; }
+  const isMobile = () => window.innerWidth <= 600;
 
   function showMobileNav(){
-    if(isMobile() && pitchers.length > 0 && selected >= 0){
+    if(isMobile()){
       mNav.style.display = 'flex';
     } else {
       mNav.style.display = 'none';
     }
   }
 
+  // Show immediately on mobile — don't wait for pitcher load
+  showMobileNav();
+  window.addEventListener('resize', showMobileNav);
+
   // Switch pane from mobile nav
   mNav.querySelectorAll('.mnb').forEach(btn => {
     if(btn.id === 'mobileMenuBtn') return;
     btn.addEventListener('click', () => {
+      // Only switch pane if data is loaded
+      if(pitchers.length === 0 || selected < 0){
+        // No data yet — open sidebar instead so they can load
+        if(window._sbShow) window._sbShow();
+        return;
+      }
       const p = btn.dataset.p;
       currentPane = p;
-      // sync desktop nav
       id('nav').querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.p === p));
       id('wrap').querySelectorAll('.pane').forEach(pn => pn.classList.toggle('on', pn.dataset.v === p));
-      // sync mobile nav
       mNav.querySelectorAll('.mnb').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
-      // scroll to top
       const cs = id('cscroll'); if(cs) cs.scrollTop = 0;
     });
   });
 
-  // Menu button opens sidebar
+  // Menu button always opens sidebar
   const menuBtn = id('mobileMenuBtn');
   if(menuBtn) menuBtn.addEventListener('click', () => {
-    const app = id('app');
-    app.classList.remove('sb-off');
-    const scrim = id('sbScrim');
-    if(scrim) scrim.style.display = 'block';
+    if(window._sbShow) window._sbShow();
   });
 
-  // Expose so renderSelected can show/hide
   window._showMobileNav = showMobileNav;
-  window.addEventListener('resize', showMobileNav);
 })();
 
 function initCollapse(hdrId,bodyId){
