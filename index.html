@@ -1073,24 +1073,32 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
   </div>
 
   <!-- Keypad -->
-  <div style="display:grid;grid-template-columns:repeat(3,72px);gap:12px">
-    ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k => `
-      <button onclick="pinPress('${k}')" style="
-        width:72px;height:72px;border-radius:50%;border:none;
-        background:${k===''?'transparent':'rgba(255,255,255,.1)'};
-        color:#E8F0E8;font-size:${k==='⌫'?'20px':'24px'};font-weight:700;
-        cursor:${k===''?'default':'pointer'};
-        transition:.1s;
-        -webkit-tap-highlight-color:transparent;
-        pointer-events:${k===''?'none':'auto'};
-      "
-      onmousedown="this.style.background='rgba(192,57,43,.5)'"
-      onmouseup="this.style.background='rgba(255,255,255,.1)'"
-      ontouchstart="this.style.background='rgba(192,57,43,.5)'"
-      ontouchend="this.style.background='rgba(255,255,255,.1)'"
-      >${k}</button>
-    `).join('')}
+  <div style="display:grid;grid-template-columns:repeat(3,80px);gap:12px">
+    <button onclick="pinPress('1')" class="pkb">1</button>
+    <button onclick="pinPress('2')" class="pkb">2</button>
+    <button onclick="pinPress('3')" class="pkb">3</button>
+    <button onclick="pinPress('4')" class="pkb">4</button>
+    <button onclick="pinPress('5')" class="pkb">5</button>
+    <button onclick="pinPress('6')" class="pkb">6</button>
+    <button onclick="pinPress('7')" class="pkb">7</button>
+    <button onclick="pinPress('8')" class="pkb">8</button>
+    <button onclick="pinPress('9')" class="pkb">9</button>
+    <button class="pkb" style="visibility:hidden"></button>
+    <button onclick="pinPress('0')" class="pkb">0</button>
+    <button onclick="pinPress('⌫')" class="pkb" style="font-size:22px">⌫</button>
   </div>
+
+  <style>
+    .pkb {
+      width:80px;height:80px;border-radius:50%;border:none;
+      background:rgba(255,255,255,.1);
+      color:#E8F0E8;font-size:26px;font-weight:700;
+      cursor:pointer;transition:background .1s;
+      -webkit-tap-highlight-color:transparent;
+      font-family:-apple-system,sans-serif;
+    }
+    .pkb:active { background:rgba(192,57,43,.6) !important; }
+  </style>
 
   <div id="pinError" style="margin-top:24px;font:600 13px/1 monospace;color:#C0392B;opacity:0;transition:opacity .2s">
     Wrong PIN — try again
