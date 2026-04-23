@@ -736,135 +736,78 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
   .lg,.duo,.ov-main{grid-template-columns:1fr}
   .ph-name{font-size:48px}
 }
+
+/* Tablet — sidebar becomes drawer */
 @media(max-width:900px){
-  :root{--sw:88vw}
-  #app{grid-template-columns:1fr!important;position:relative}
+  #app{grid-template-columns:1fr!important}
   #sidebar{
-    position:fixed;top:0;left:0;bottom:0;width:var(--sw);max-width:340px;
-    z-index:500;transform:translateX(0);
-    transition:transform .3s cubic-bezier(.4,0,.2,1);
-    box-shadow:8px 0 32px rgba(0,0,0,.3);
+    position:fixed;top:0;left:0;bottom:0;
+    width:88vw;max-width:320px;z-index:600;
+    transform:translateX(-110%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    box-shadow:8px 0 40px rgba(0,0,0,.4);
   }
-  #app.sb-off #sidebar{transform:translateX(-110%);opacity:1!important;pointer-events:none}
-  #sbScrim{display:block}
+  #sidebar.open{transform:translateX(0)!important}
+  #sbScrim{display:none;position:fixed;inset:0;z-index:590;background:rgba(0,0,0,.5)}
+  #sbScrim.open{display:block!important}
   #sbTab{display:none!important}
-  #content{grid-column:1;height:100dvh}
-  #wrap{padding:12px 12px 100px}
+  #content{width:100%;height:100dvh}
   .at-range{display:none}
-  .ov-main{grid-template-columns:1fr}
-  .duo{grid-template-columns:1fr}
+  .ov-main,.duo{grid-template-columns:1fr}
 }
 
-/* ── MOBILE-FIRST: bottom nav bar replaces top tabs ── */
+/* iPhone */
 @media(max-width:600px){
-  :root{--sw:100vw;--nav-h:0px}
-  #wrap{padding:10px 10px 90px}
-  .ph-name{font-size:32px}
-
-  /* Hide top nav entirely on mobile — replaced by bottom bar */
+  :root{--nav-h:0px}
   #nav{display:none!important}
-
-  /* Bottom nav bar */
   #mobileNav{
-    display:flex;
-    position:fixed;bottom:0;left:0;right:0;z-index:100;
-    background:var(--panel);
-    border-top:1px solid var(--line2);
-    box-shadow:0 -4px 20px rgba(0,0,0,.1);
-    height:64px;
+    position:fixed;bottom:0;left:0;right:0;z-index:500;
+    display:flex!important;
+    background:#fff;border-top:1px solid #e2ddd6;
+    box-shadow:0 -2px 12px rgba(0,0,0,.1);
+    height:60px;
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
   .mnb{
     flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;border:none;background:transparent;cursor:pointer;
-    color:var(--ink3);transition:.12s;padding:0 4px;min-width:0;
-    -webkit-tap-highlight-color:transparent;
+    gap:3px;background:transparent;border:none;color:#9b9185;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+    padding:6px 2px 0;min-width:0;cursor:pointer;
   }
-  .mnb.on{color:var(--red)}
-  .mnb-icon{font-size:18px;line-height:1}
-  .mnb-lbl{font:600 9px/1 var(--mono);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
-
-  /* Content scroll needs room for bottom nav */
-  #cscroll{padding-bottom:0}
-
-  /* KPI strip — 2 col on small screens */
+  .mnb.on{color:#C0392B}
+  .mnb-icon{font-size:19px;line-height:1}
+  .mnb-lbl{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;font-family:monospace}
+  #wrap{padding:10px 10px calc(72px + env(safe-area-inset-bottom,0px))}
+  .ph-name{font-size:30px}
   .kpi-strip{grid-template-columns:1fr 1fr}
   .kpi:nth-child(2){border-right:none}
   .kpi:nth-child(3),.kpi:nth-child(4),.kpi:nth-child(5),.kpi:nth-child(6){border-top:1px solid var(--line)}
   .kpi:nth-child(odd){border-right:1px solid var(--line)}
   .kpi:nth-child(even){border-right:none}
   .kpi{padding:12px 14px 10px}
-  .kpi-val{font-size:28px}
-
-  /* Stack everything */
+  .kpi-val{font-size:26px}
   .ov-main,.duo,.lg{grid-template-columns:1fr;gap:12px}
   .pgrid{grid-template-columns:1fr 1fr;gap:10px}
   .igrid{grid-template-columns:repeat(3,1fr);gap:8px}
   .sg-grid{grid-template-columns:1fr;gap:10px}
-
-  /* Pitch cards smaller */
-  .pc-body{padding:10px 12px}
-  .pc-velo{font-size:24px}
-
-  /* Count matrix horizontal scroll with touch */
-  .mx{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px}
-  .mx table{min-width:560px}
-  .mx th,.mx td{padding:8px 6px}
-
-  /* Split rows stack better */
-  .split-row{grid-template-columns:36px 1fr 60px 42px;gap:6px}
-  .sp-range{display:none}
-
-  /* Card padding tighter */
+  .alert-grid{grid-template-columns:1fr}
   .cb{padding:12px 14px}
   .ch{padding:10px 14px}
-
-  /* Arsenal table simplified */
   .at-range,.at-count{display:none}
-  .at-velo{min-width:90px}
-  .at-usage{min-width:90px}
-
-  /* Alert cards full width */
-  .alert-grid{grid-template-columns:1fr}
-  .alert-pct{font-size:28px}
-
-  /* Trans cards stack */
-  .trans-card{padding:12px}
-
-  /* Streak table scroll */
-  .dt{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
-
-  /* Prop builder — full stack on mobile */
+  .mx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .mx table{min-width:500px}
+  .split-row{grid-template-columns:36px 1fr 56px 40px;gap:5px}
+  .sp-range{display:none}
   .pb-layout{grid-template-columns:1fr;gap:12px}
   .pb-filters{position:static}
-  .pb-fsec{padding:12px 14px}
   .pb-count-grid{grid-template-columns:repeat(4,1fr);gap:4px}
   .pb-cnt{padding:9px 2px;font-size:10px}
   .pb-pills{gap:5px}
-  .pb-pill{padding:8px 11px;font-size:10px}
-
-  /* Verdict large on mobile */
-  .pb-v-dir{font-size:36px}
-  .pb-v-pct{font-size:44px}
-
-  /* Nav sb btn hidden — sidebar opened from bottom nav */
-  .nav-spacer,.nav-sb-btn{display:none}
-
-  /* Hide sb pull tab */
-  #sbTab{display:none!important}
-
-  /* Inning grid smaller on mobile */
-  .icard{padding:10px 10px 10px 14px}
-  .i-velo{font-size:22px}
-  .i-pct{font-size:15px}
-
-  /* Page header tighter */
+  .dt{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .ph{margin-bottom:14px;padding-bottom:14px}
-  .ph-tags{gap:4px}
   .tag{font-size:10px;padding:3px 8px}
+  .nav-spacer,.nav-sb-btn{display:none}
 }
-
-/* Very small phones */
 @media(max-width:380px){
   .pgrid{grid-template-columns:1fr}
   .igrid{grid-template-columns:repeat(2,1fr)}
@@ -1324,20 +1267,21 @@ id('snapClearBtn').onclick=()=>{
   id('wrap').innerHTML=`<div class="empty"><div class="empty-ball">⚾</div><div class="empty-title">Snapshot Cleared</div><div class="empty-sub">Load live data or load a new snapshot file.</div></div>`;
 };
 
-/* SIDEBAR TOGGLE */
+/* SIDEBAR TOGGLE — uses .open class, no style conflicts with CSS */
 var sbVisible = false;
 function sbShow(){
   sbVisible=true;
-  id('app').classList.remove('sb-off');
-  id('sbScrim').style.display='block';
+  id('sidebar').classList.add('open');
+  id('sbScrim').classList.add('open');
 }
 function sbHide(){
   sbVisible=false;
-  id('app').classList.add('sb-off');
-  id('sbScrim').style.display='none';
+  id('sidebar').classList.remove('open');
+  id('sbScrim').classList.remove('open');
 }
-// Start hidden on mobile
-if(window.innerWidth<=900){ sbHide(); } else { sbVisible=true; }
+// Always start hidden on mobile
+if(window.innerWidth<=900){ sbVisible=false; }
+else { sbShow(); }
 id('navSbBtn').onclick=function(){ sbVisible?sbHide():sbShow(); };
 id('sbCloseBtn').onclick=sbHide;
 id('sbScrim').onclick=sbHide;
@@ -1352,6 +1296,7 @@ if(mNav){
   mNav.querySelectorAll('.mnb').forEach(function(btn){
     if(btn.id==='mobileMenuBtn'){ btn.addEventListener('click',sbShow); return; }
     btn.addEventListener('click',function(){
+      // If no data, open sidebar so user can load
       if(!pitchers.length||selected<0){ sbShow(); return; }
       var p=btn.dataset.p;
       currentPane=p;
@@ -1362,6 +1307,14 @@ if(mNav){
     });
   });
 }
+// Make sure bottom nav always shows on mobile (CSS does this but belt+suspenders)
+function ensureMobileNav(){
+  if(!mNav)return;
+  if(window.innerWidth<=600){ mNav.style.display='flex'; }
+  else { mNav.style.display='none'; }
+}
+ensureMobileNav();
+window.addEventListener('resize', ensureMobileNav);
 
 /* COLLAPSIBLE SIDEBAR SECTIONS */
 function initCollapse(hdrId,bodyId){
