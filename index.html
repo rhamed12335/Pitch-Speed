@@ -2349,60 +2349,84 @@ function streakHTML(items){
 <script>
 /* ─── PWA: Register Service Worker ─── */
 
-/* PWA STANDALONE MODE — fixes for installed iPhone app */
+/* PWA STANDALONE MODE — iPhone installed app safe areas */
 @media all and (display-mode: standalone) {
-  #content{ padding-top:env(safe-area-inset-top,44px); }
-  #mobileNav{
-    height:auto!important;
-    padding-top:8px!important;
-    padding-bottom:env(safe-area-inset-bottom,20px)!important;
+  /* Top: push first content element below Dynamic Island */
+  #snapBanner.on{
+    padding-top:calc(env(safe-area-inset-top,44px) + 6px) !important;
   }
-  .mnb{ padding-top:4px!important; padding-bottom:0!important; justify-content:flex-start!important; }
-  #wrap{ padding-bottom:calc(80px + env(safe-area-inset-bottom,20px))!important; }
+  #cscroll{
+    padding-top:env(safe-area-inset-top,44px);
+  }
+  /* Bottom: nav fills all the way to phone edge — no white gap */
+  #mobileNav{
+    padding-bottom:env(safe-area-inset-bottom,34px) !important;
+    height:auto !important;
+    min-height:calc(50px + env(safe-area-inset-bottom,34px)) !important;
+    background:#ffffff !important;
+  }
+  .mnb{
+    align-self:flex-start !important;
+    padding-top:8px !important;
+    height:50px !important;
+  }
+  #wrap{
+    padding-bottom:calc(90px + env(safe-area-inset-bottom,34px)) !important;
+  }
 }
 
-/* APPLY SAFE AREA FIXES VIA JS — bypasses service worker cache */
+/* APPLY SAFE AREA FIXES VIA JS — runs fresh every load */
 (function(){
   function applyFixes(){
-    var isStandalone = window.navigator.standalone === true ||
-      window.matchMedia('(display-mode: standalone)').matches;
+    var isStandalone = window.navigator.standalone === true;
     var isMobile = window.innerWidth <= 600;
-    if(!isMobile) return;
-
-    // Get actual safe area values via a test element
-    var t = document.createElement('div');
-    t.style.cssText = 'position:fixed;top:env(safe-area-inset-top,0px);left:0;width:1px;height:1px;pointer-events:none;visibility:hidden;';
-    document.body.appendChild(t);
-    var topInset = t.getBoundingClientRect().top || 0;
-    document.body.removeChild(t);
+    if(!isMobile && !isStandalone) return;
 
     var nav = document.getElementById('mobileNav');
-    var content = document.getElementById('content');
+    var cscroll = document.getElementById('cscroll');
     var snap = document.getElementById('snapBanner');
 
-    if(isStandalone && content){
-      // Push content below Dynamic Island
-      content.style.paddingTop = 'env(safe-area-inset-top, 44px)';
-    }
+    // Measure actual top inset using a positioned element
+    var probe = document.createElement('div');
+    probe.setAttribute('style','position:fixed;top:env(safe-area-inset-top,0px);left:0;width:0;height:0;');
+    document.documentElement.appendChild(probe);
+    var topPx = probe.getBoundingClientRect().top;
+    document.documentElement.removeChild(probe);
 
-    if(snap){
-      // Always push snap banner below island on mobile
-      snap.style.paddingTop = 'calc(env(safe-area-inset-top, 0px) + 8px)';
-    }
+    // Measure actual bottom inset
+    var probe2 = document.createElement('div');
+    probe2.setAttribute('style','position:fixed;bottom:env(safe-area-inset-bottom,0px);left:0;width:0;height:0;');
+    document.documentElement.appendChild(probe2);
+    var botPx = window.innerHeight - probe2.getBoundingClientRect().bottom;
+    document.documentElement.removeChild(probe2);
 
-    if(nav && isStandalone){
-      // Fill home indicator gap — no white bar
-      nav.style.paddingBottom = 'env(safe-area-inset-bottom, 20px)';
-      nav.style.height = 'auto';
-      // Tighten icon layout
-      nav.querySelectorAll('.mnb').forEach(function(b){
-        b.style.paddingTop = '6px';
-        b.style.paddingBottom = '0';
-        b.style.justifyContent = 'flex-start';
-      });
+    // If no measurement, use known iPhone values
+    if(topPx <= 0) topPx = isStandalone ? 59 : 0; // Dynamic Island = 59px
+    if(botPx <= 0) botPx = isStandalone ? 34 : 0; // Home bar = 34px
+
+    if(isStandalone){
+      // Push scrollable content below Dynamic Island
+      if(cscroll) cscroll.style.paddingTop = topPx + 'px';
+
+      // Snap banner also needs pushing
+      if(snap) snap.style.paddingTop = (topPx + 6) + 'px';
+
+      // Bottom nav: grow to fill home indicator zone
+      if(nav){
+        nav.style.paddingBottom = botPx + 'px';
+        nav.style.height = 'auto';
+        nav.style.minHeight = (50 + botPx) + 'px';
+        nav.querySelectorAll('.mnb').forEach(function(b){
+          b.style.height = '50px';
+          b.style.paddingTop = '8px';
+          b.style.paddingBottom = '0';
+          b.style.alignItems = 'center';
+          b.style.justifyContent = 'center';
+        });
+      }
     }
   }
-  // Run after DOM ready
+
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', applyFixes);
   } else {
