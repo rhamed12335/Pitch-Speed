@@ -9,11 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Money Printer">
 <meta name="theme-color" content="#1A2E1A">
-<meta name="description" content="Statcast pitch sequencing & prop builder">
+<meta name="description" content="Statcast pitch sequencing and prop builder">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1050,153 +1049,111 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
 .snap-clear:hover{background:rgba(217,119,6,.1)}
 </style>
 </head>
-<body>
 
-<!-- ═══════ PIN LOCK SCREEN ═══════ -->
-<div id="pinLock" style="position:fixed;inset:0;z-index:99999;background:#1A2E1A;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;touch-action:manipulation;">
-
-  <div style="font-size:52px;margin-bottom:6px;line-height:1">⚾</div>
-  <div style="font-size:30px;font-weight:900;color:#E8F0E8;letter-spacing:2px;margin-bottom:4px;font-family:Impact,sans-serif">MONEY PRINTER</div>
-  <div style="font-size:11px;color:#5A7A5A;letter-spacing:3px;text-transform:uppercase;margin-bottom:36px;font-family:monospace">ENTER PIN</div>
-
-  <div id="pinDots" style="display:flex;gap:18px;margin-bottom:44px">
-    <div class="pd" id="d0" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
-    <div class="pd" id="d1" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
-    <div class="pd" id="d2" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
-    <div class="pd" id="d3" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2)"></div>
+<!-- PIN SCREEN: every style is 100% inline so app CSS cannot touch it -->
+<div id="PIN" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1A2E1A;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
+  <div style="font-size:54px;line-height:1;margin-bottom:10px;">⚾</div>
+  <div style="font-size:32px;font-weight:900;color:#E8F0E8;letter-spacing:3px;font-family:Impact,sans-serif;margin-bottom:6px;">MONEY PRINTER</div>
+  <div style="font-size:11px;color:#5A7A5A;letter-spacing:3px;text-transform:uppercase;margin-bottom:40px;">ENTER PIN</div>
+  <div id="PIN_DOTS" style="display:flex;gap:20px;margin-bottom:44px;">
+    <div id="PIN_D0" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.18);transition:background 0.15s;"></div>
+    <div id="PIN_D1" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.18);transition:background 0.15s;"></div>
+    <div id="PIN_D2" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.18);transition:background 0.15s;"></div>
+    <div id="PIN_D3" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.18);transition:background 0.15s;"></div>
   </div>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:280px">
-    <button id="pk1" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">1</button>
-    <button id="pk2" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">2</button>
-    <button id="pk3" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">3</button>
-    <button id="pk4" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">4</button>
-    <button id="pk5" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">5</button>
-    <button id="pk6" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">6</button>
-    <button id="pk7" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">7</button>
-    <button id="pk8" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">8</button>
-    <button id="pk9" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">9</button>
-    <div></div>
-    <button id="pk0" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">0</button>
-    <button id="pkdel" style="height:76px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:24px;font-weight:700;border:none;font-family:-apple-system,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">⌫</button>
+  <div style="display:grid;grid-template-columns:repeat(3,80px);grid-template-rows:repeat(4,80px);gap:12px;">
+    <button id="PK1" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">1</button>
+    <button id="PK2" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">2</button>
+    <button id="PK3" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">3</button>
+    <button id="PK4" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">4</button>
+    <button id="PK5" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">5</button>
+    <button id="PK6" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">6</button>
+    <button id="PK7" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">7</button>
+    <button id="PK8" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">8</button>
+    <button id="PK9" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">9</button>
+    <div style="width:80px;height:80px;"></div>
+    <button id="PK0" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:28px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">0</button>
+    <button id="PKX" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);color:#E8F0E8;font-size:24px;font-weight:700;border:0;cursor:pointer;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">⌫</button>
   </div>
-
-  <div id="pinError" style="margin-top:28px;font-size:13px;font-weight:600;color:#C0392B;opacity:0;font-family:monospace;transition:opacity 0.2s">
-    Wrong PIN — try again
-  </div>
-
+  <div id="PIN_ERR" style="margin-top:28px;font-size:13px;font-weight:600;color:#C0392B;opacity:0;transition:opacity 0.2s;font-family:-apple-system,sans-serif;letter-spacing:0.5px;">Wrong PIN — try again</div>
 </div>
 
 <script>
 (function(){
-  var CORRECT = '2222';
+  var PIN = '2222';
   var entered = '';
+  var lock = document.getElementById('PIN');
 
-  // Already unlocked this session?
-  try { if(sessionStorage.getItem('mp_pin')==='1'){ document.getElementById('pinLock').style.display='none'; return; } } catch(e){}
+  // Already unlocked this session
+  try { if(sessionStorage.getItem('mp_ok')==='1'){ lock.style.display='none'; return; } } catch(e){}
 
+  function dot(i, on){
+    document.getElementById('PIN_D'+i).style.background = on ? '#C0392B' : 'rgba(255,255,255,0.18)';
+  }
   function updateDots(){
-    for(var i=0;i<4;i++){
-      document.getElementById('d'+i).style.background = i < entered.length ? '#C0392B' : 'rgba(255,255,255,0.2)';
-    }
+    for(var i=0;i<4;i++) dot(i, i<entered.length);
   }
-
-  function flash(el){
-    el.style.background='rgba(192,57,43,0.7)';
-    setTimeout(function(){ el.style.background='rgba(255,255,255,0.12)'; }, 120);
+  function flash(id){
+    var b=document.getElementById(id);
+    if(!b) return;
+    b.style.background='rgba(192,57,43,0.7)';
+    setTimeout(function(){ b.style.background='rgba(255,255,255,0.12)'; },130);
   }
-
-  function press(k){
-    var el = document.getElementById('pk'+k);
-    if(el) flash(el);
-    if(k==='del'){
-      entered = entered.slice(0,-1);
-      updateDots();
-      return;
-    }
+  function wrong(){
+    document.getElementById('PIN_ERR').style.opacity='1';
+    var d=document.getElementById('PIN_DOTS'), n=0;
+    var iv=setInterval(function(){
+      d.style.transform=n%2===0?'translateX(10px)':'translateX(-10px)';
+      if(++n>5){ clearInterval(iv); d.style.transform='none'; }
+    },55);
+    setTimeout(function(){
+      entered=''; updateDots();
+      document.getElementById('PIN_ERR').style.opacity='0';
+    },950);
+  }
+  function press(k, btnId){
+    flash(btnId);
+    if(k==='X'){ entered=entered.slice(0,-1); updateDots(); return; }
     if(entered.length>=4) return;
-    entered += k;
-    updateDots();
+    entered+=k; updateDots();
     if(entered.length===4){
-      if(entered===CORRECT){
-        try{ sessionStorage.setItem('mp_pin','1'); }catch(e){}
-        var lock=document.getElementById('pinLock');
+      if(entered===PIN){
+        try{ sessionStorage.setItem('mp_ok','1'); }catch(e){}
+        lock.style.transition='opacity 0.35s';
         lock.style.opacity='0';
-        lock.style.transition='opacity 0.3s';
-        setTimeout(function(){ lock.style.display='none'; }, 320);
-      } else {
-        document.getElementById('pinError').style.opacity='1';
-        var dots=document.getElementById('pinDots');
-        var n=0;
-        var iv=setInterval(function(){
-          dots.style.transform = n%2===0?'translateX(10px)':'translateX(-10px)';
-          n++;
-          if(n>5){ clearInterval(iv); dots.style.transform='translateX(0)'; }
-        },55);
-        setTimeout(function(){
-          entered='';
-          updateDots();
-          document.getElementById('pinError').style.opacity='0';
-        },1000);
-      }
+        setTimeout(function(){ lock.style.display='none'; },360);
+      } else { wrong(); }
     }
   }
-
-  document.getElementById('pk1').addEventListener('click',function(){press('1')});
-  document.getElementById('pk2').addEventListener('click',function(){press('2')});
-  document.getElementById('pk3').addEventListener('click',function(){press('3')});
-  document.getElementById('pk4').addEventListener('click',function(){press('4')});
-  document.getElementById('pk5').addEventListener('click',function(){press('5')});
-  document.getElementById('pk6').addEventListener('click',function(){press('6')});
-  document.getElementById('pk7').addEventListener('click',function(){press('7')});
-  document.getElementById('pk8').addEventListener('click',function(){press('8')});
-  document.getElementById('pk9').addEventListener('click',function(){press('9')});
-  document.getElementById('pk0').addEventListener('click',function(){press('0')});
-  document.getElementById('pkdel').addEventListener('click',function(){press('del')});
-
+  ['0','1','2','3','4','5','6','7','8','9'].forEach(function(n){
+    document.getElementById('PK'+n).addEventListener('click',function(){ press(n,'PK'+n); });
+  });
+  document.getElementById('PKX').addEventListener('click',function(){ press('X','PKX'); });
   document.addEventListener('keydown',function(e){
-    if(document.getElementById('pinLock').style.display==='none') return;
-    if(e.key>='0'&&e.key<='9') press(e.key);
-    if(e.key==='Backspace') press('del');
+    if(lock.style.display==='none') return;
+    if(e.key>='0'&&e.key<='9') press(e.key,'PK'+e.key);
+    if(e.key==='Backspace') press('X','PKX');
   });
 })();
 </script>
 
-<div id="sbScrim"></div>
+<div id="sbScrim" style="display:none;position:fixed;inset:0;z-index:490;background:rgba(0,0,0,0.45);backdrop-filter:blur(2px);cursor:pointer;"></div>
 <div id="app">
 
-<!-- ═══════ SIDEBAR ═══════ -->
+<!-- SIDEBAR -->
 <aside id="sidebar">
-
-  <!-- Brand -->
   <div class="sb-brand">
     <div class="sb-logo">
       <div class="sb-ball">⚾</div>
-      <div>
-        <div class="sb-title">Money Printer</div>
-      </div>
+      <div><div class="sb-title">Money Printer</div></div>
     </div>
     <div class="sb-sub">Statcast · arsenal · sequencing tells</div>
   </div>
-
-  <!-- Load Data section -->
-  <div class="sb-sec-hdr open" id="ctrlHdr">
-    <span class="sb-sec-lbl">Load Data</span>
-    <span class="sb-chev">▾</span>
-  </div>
+  <div class="sb-sec-hdr open" id="ctrlHdr"><span class="sb-sec-lbl">Load Data</span><span class="sb-chev">▾</span></div>
   <div class="sb-sec-body" id="ctrlBody">
     <div class="sb-controls">
-      <div>
-        <div class="flbl">API Base URL</div>
-        <input id="apiBase" class="inp" value="http://127.0.0.1:8000">
-      </div>
-      <div>
-        <div class="flbl">Range Mode</div>
-        <select id="rangeMode" class="sel">
-          <option value="season_to_today" selected>Season start → today</option>
-          <option value="custom">Custom dates</option>
-        </select>
-      </div>
+      <div><div class="flbl">API Base URL</div><input id="apiBase" class="inp" value="http://127.0.0.1:8000"></div>
+      <div><div class="flbl">Range Mode</div><select id="rangeMode" class="sel"><option value="season_to_today" selected>Season start → today</option><option value="custom">Custom dates</option></select></div>
       <div>
         <div class="drow">
           <div><div class="flbl">Season</div><input id="season" class="inp" type="number" value="2026" min="2015" max="2100"></div>
@@ -1208,131 +1165,75 @@ button,input,select{font:inherit;color:inherit;outline:none;border:none}
       <div id="meta" class="sb-meta"><div class="sb-meta-wait">Waiting for request…</div></div>
     </div>
   </div>
-
-  <!-- Pitcher list section -->
-  <div class="sb-sec-hdr open" id="listHdr">
-    <span class="sb-sec-lbl">Pitchers</span>
-    <span class="sb-chev">▾</span>
-  </div>
+  <div class="sb-sec-hdr open" id="listHdr"><span class="sb-sec-lbl">Pitchers</span><span class="sb-chev">▾</span></div>
   <div class="sb-sec-body" id="listBody" style="display:flex;flex-direction:column;flex:1;min-height:0">
-    <div class="sb-search">
-      <div class="srch-wrap">
-        <span class="srch-icon">⌕</span>
-        <input id="search" class="srch-inp" placeholder="Search name or team…">
-      </div>
-    </div>
+    <div class="sb-search"><div class="srch-wrap"><span class="srch-icon">⌕</span><input id="search" class="srch-inp" placeholder="Search name or team…"></div></div>
     <div id="pcount" class="sb-pcount">0 pitchers</div>
     <div id="plist" class="sb-plist"></div>
   </div>
-
-  <!-- Bottom bar -->
   <div class="sb-bottom">
     <button id="saveBtn" class="sb-btn save" disabled>💾 Save</button>
-    <button id="loadSnapBtn" class="sb-btn" title="Load a saved snapshot">📂 Load</button>
-    <button id="sbCloseBtn" class="sb-btn" title="Close panel">✕</button>
+    <button id="loadSnapBtn" class="sb-btn">📂 Load</button>
+    <button id="sbCloseBtn" class="sb-btn">✕ Close</button>
   </div>
-
 </aside>
 
-<!-- Pull tab (when sidebar hidden) -->
-<div id="sbTab"><span>Panel</span></div>
-
-<!-- ═══════ CONTENT ═══════ -->
+<!-- CONTENT -->
 <div id="content">
-
-  <!-- Snapshot banner -->
   <div id="snapBanner">
     <span>📸</span>
     <span><strong>Snapshot loaded.</strong> Browsing saved data — <span id="snapInfo"></span></span>
     <button class="snap-clear" id="snapClearBtn">✕ Clear</button>
   </div>
-
-  <!-- Top nav -->
   <nav id="nav">
     <button class="nb on" data-p="overview"><span class="nb-icon">📊</span> Overview</button>
     <button class="nb" data-p="splits"><span class="nb-icon">↔</span> L / R Splits</button>
     <button class="nb" data-p="counts"><span class="nb-icon">🔢</span> By Count</button>
-    <button class="nb" data-p="inning"><span class="nb-icon">🕐</span> Inning Starts</button>
-    <button class="nb" data-p="speed"><span class="nb-icon">⚡</span> Speed Groups</button>
+    <button class="nb" data-p="inning"><span class="nb-icon">🕐</span> Inning</button>
+    <button class="nb" data-p="speed"><span class="nb-icon">⚡</span> Speed</button>
     <button class="nb" data-p="patterns"><span class="nb-icon">🎯</span> Patterns</button>
-    <button class="nb" data-p="propbuilder"><span class="nb-icon">💰</span> Prop Builder</button>
+    <button class="nb" data-p="propbuilder"><span class="nb-icon">💰</span> Prop</button>
     <div class="nav-spacer"></div>
     <button class="nav-sb-btn" id="navSbBtn">☰ Panel</button>
   </nav>
-
-  <!-- Loading overlay -->
-  <div id="overlay">
-    <div class="ov-card">
-      <div class="ov-spin"></div>
-      <div class="ov-title">Loading Data</div>
-      <div class="ov-copy">Pulling Statcast data and crunching the numbers.</div>
-    </div>
-  </div>
-
-  <!-- Hidden file input for snapshot load -->
+  <div id="overlay"><div class="ov-card"><div class="ov-spin"></div><div class="ov-title">Loading Data</div><div class="ov-copy">Pulling Statcast data and crunching the numbers.</div></div></div>
   <input type="file" id="snapFile" accept=".json" style="display:none">
-
   <div id="cscroll">
-    <!-- Mobile secondary tabs (Inning + Speed — overflow from bottom bar) -->
-    <div id="mobileSecNav" style="display:none;overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--line);background:var(--panel2);padding:0 10px">
-      <div style="display:flex;gap:0;width:max-content">
-        <button class="msnb" data-p="inning" style="padding:9px 14px;background:transparent;border:none;border-bottom:2px solid transparent;font:600 11px/1 var(--sans);color:var(--ink3);cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent">🕐 Inning</button>
-        <button class="msnb" data-p="speed" style="padding:9px 14px;background:transparent;border:none;border-bottom:2px solid transparent;font:600 11px/1 var(--sans);color:var(--ink3);cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent">⚡ Speed</button>
-      </div>
-    </div>
     <div id="wrap">
       <div class="empty">
         <div class="empty-ball">⚾</div>
         <div class="empty-title">Money Printer</div>
-        <div class="empty-sub">Tap <strong>☰ Menu</strong> at the bottom to open the panel, load data, then select a pitcher.</div>
+        <div class="empty-sub" id="emptyMsg">Tap <strong>☰ Panel</strong> in the top right — or tap <strong>☰ Menu</strong> below — to open the sidebar, load data, then select a pitcher.</div>
       </div>
     </div>
   </div>
+</div>
 
-</div><!-- /content -->
 </div><!-- /app -->
 
-<!-- ═══════ MOBILE BOTTOM NAV ═══════ -->
-<div id="mobileNav" style="display:none">
-  <button class="mnb on" data-p="overview">
-    <span class="mnb-icon">📊</span>
-    <span class="mnb-lbl">Overview</span>
-  </button>
-  <button class="mnb" data-p="splits">
-    <span class="mnb-icon">↔</span>
-    <span class="mnb-lbl">Splits</span>
-  </button>
-  <button class="mnb" data-p="counts">
-    <span class="mnb-icon">🔢</span>
-    <span class="mnb-lbl">Count</span>
-  </button>
-  <button class="mnb" data-p="patterns">
-    <span class="mnb-icon">🎯</span>
-    <span class="mnb-lbl">Patterns</span>
-  </button>
-  <button class="mnb" data-p="propbuilder">
-    <span class="mnb-icon">💰</span>
-    <span class="mnb-lbl">Prop</span>
-  </button>
-  <button class="mnb" id="mobileMenuBtn" data-p="__menu__">
-    <span class="mnb-icon">☰</span>
-    <span class="mnb-lbl">Menu</span>
-  </button>
+<!-- MOBILE BOTTOM NAV — always visible on mobile -->
+<div id="mobileNav">
+  <button class="mnb on" data-p="overview"><span class="mnb-icon">📊</span><span class="mnb-lbl">Overview</span></button>
+  <button class="mnb" data-p="splits"><span class="mnb-icon">↔</span><span class="mnb-lbl">Splits</span></button>
+  <button class="mnb" data-p="counts"><span class="mnb-icon">🔢</span><span class="mnb-lbl">Count</span></button>
+  <button class="mnb" data-p="patterns"><span class="mnb-icon">🎯</span><span class="mnb-lbl">Patterns</span></button>
+  <button class="mnb" data-p="propbuilder"><span class="mnb-icon">💰</span><span class="mnb-lbl">Prop</span></button>
+  <button class="mnb" id="mobileMenuBtn"><span class="mnb-icon">☰</span><span class="mnb-lbl">Menu</span></button>
 </div>
 
 <script>
-/* ─── UTILS ─── */
+/* UTILS */
 function id(x){return document.getElementById(x)}
-function todayISO(){const d=new Date(),tz=d.getTimezoneOffset()*60000;return new Date(d-tz).toISOString().slice(0,10)}
+function todayISO(){var d=new Date(),tz=d.getTimezoneOffset()*60000;return new Date(d-tz).toISOString().slice(0,10)}
 function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
-/* ─── STATE ─── */
+/* STATE */
 const STARTS={2026:'2026-03-25',2025:'2025-03-27',2024:'2024-03-28',2023:'2023-03-30',2022:'2022-04-07'};
 let pitchers=[],filtered=[],selected=-1,snapMeta={};
 let currentPane='overview';
 function ssStart(s){return STARTS[s]||`${s}-03-25`}
 
-/* ─── DATE SYNC ─── */
+/* DATE SYNC */
 function syncD(){
   const s=String(id('season').value||'');
   if(id('rangeMode').value==='season_to_today'){
@@ -1345,16 +1246,14 @@ function syncD(){
 }
 id('rangeMode').onchange=syncD;id('season').onchange=syncD;syncD();
 
-/* ─── SEARCH ─── */
+/* SEARCH */
 id('search').oninput=function(){
   const q=this.value.trim().toLowerCase();
-  filtered=pitchers.map((_,i)=>i).filter(i=>
-    pitchers[i].name.toLowerCase().includes(q)||(pitchers[i].team||'').toLowerCase().includes(q)
-  );
+  filtered=pitchers.map((_,i)=>i).filter(i=>pitchers[i].name.toLowerCase().includes(q)||(pitchers[i].team||'').toLowerCase().includes(q));
   renderList();
 };
 
-/* ─── LOAD LIVE ─── */
+/* LOAD LIVE */
 id('loadBtn').onclick=loadLive;
 async function loadLive(){
   try{
@@ -1378,59 +1277,36 @@ async function loadLive(){
   }finally{id('overlay').classList.remove('on');id('loadBtn').disabled=false}
 }
 
-/* ─── SNAPSHOT — localStorage-based ─── */
+/* SNAPSHOT */
 id('saveBtn').onclick=function(){
   if(!pitchers.length){alert('Load data first.');return}
   try{
     const payload={pitchers,meta:snapMeta,savedAt:new Date().toLocaleString()};
     const json=JSON.stringify(payload);
-    // Try localStorage first (fast)
     try{localStorage.setItem('mp_snapshot',json);}catch(e){}
-    // Also trigger a JSON file download so it works across sessions/devices
     const blob=new Blob([json],{type:'application/json'});
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);
     a.download=`money-printer-${todayISO()}.json`;
     document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
-    // Visual feedback
     const btn=this;const orig=btn.textContent;btn.textContent='✓ Saved!';
     setTimeout(()=>btn.textContent=orig,1800);
   }catch(e){alert('Save failed: '+e.message);}
 };
-
-// Load from file
 id('loadSnapBtn').onclick=()=>id('snapFile').click();
 id('snapFile').onchange=function(){
   const file=this.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      applySnapshot(data);
-    }catch(err){alert('Could not read snapshot file: '+err.message);}
-    this.value='';
-  };
+  reader.onload=e=>{try{applySnapshot(JSON.parse(e.target.result));}catch(err){alert('Could not read snapshot: '+err.message);}this.value='';};
   reader.readAsText(file);
 };
-
-// Also try loading from localStorage on startup
 (function(){
   try{
     const saved=localStorage.getItem('mp_snapshot');
-    if(saved){
-      const data=JSON.parse(saved);
-      // Only auto-load if less than 48 hours old
-      if(data.pitchers&&data.pitchers.length>0){
-        setTimeout(()=>applySnapshot(data,true),80);
-      }
-    }
+    if(saved){const data=JSON.parse(saved);if(data.pitchers&&data.pitchers.length>0)setTimeout(()=>applySnapshot(data,true),80);}
   }catch(e){}
 })();
-
 function applySnapshot(data,isAuto=false){
-  pitchers=data.pitchers||[];
-  filtered=pitchers.map((_,i)=>i);
-  selected=filtered.length?filtered[0]:-1;
-  snapMeta=data.meta||{};
+  pitchers=data.pitchers||[];filtered=pitchers.map((_,i)=>i);selected=filtered.length?filtered[0]:-1;snapMeta=data.meta||{};
   const savedAt=data.savedAt||'unknown';
   id('snapInfo').textContent=`${pitchers.length} pitchers · saved ${savedAt}`;
   id('snapBanner').classList.add('on');
@@ -1438,155 +1314,98 @@ function applySnapshot(data,isAuto=false){
   id('saveBtn').disabled=false;id('saveBtn').textContent='💾 Re-save';
   renderList();renderSelected();
 }
-
-function clearSnapBanner(){
-  id('snapBanner').classList.remove('on');
-  id('saveBtn').textContent='💾 Save';
-}
-
+function clearSnapBanner(){id('snapBanner').classList.remove('on');id('saveBtn').textContent='💾 Save';}
 id('snapClearBtn').onclick=()=>{
   try{localStorage.removeItem('mp_snapshot');}catch(e){}
-  pitchers=[];filtered=[];selected=-1;snapMeta={};
-  clearSnapBanner();
+  pitchers=[];filtered=[];selected=-1;snapMeta={};clearSnapBanner();
   id('nav').classList.remove('on');
   id('meta').innerHTML='<div class="sb-meta-wait">Snapshot cleared</div>';
-  id('saveBtn').disabled=true;
-  id('pcount').textContent='0 pitchers';
-  id('plist').innerHTML='';
+  id('saveBtn').disabled=true;id('pcount').textContent='0 pitchers';id('plist').innerHTML='';
   id('wrap').innerHTML=`<div class="empty"><div class="empty-ball">⚾</div><div class="empty-title">Snapshot Cleared</div><div class="empty-sub">Load live data or load a new snapshot file.</div></div>`;
 };
 
-/* ─── SIDEBAR TOGGLE ─── */
-(function(){
-  const app=id('app'),scrim=id('sbScrim');
-  const isMobile=()=>window.innerWidth<=900;
-  function sbShow(){
-    app.classList.remove('sb-off');
-    if(scrim)scrim.style.display='block';
-    localStorage.setItem('mp_sb','1');
-  }
-  function sbHide(){
-    app.classList.add('sb-off');
-    if(scrim)scrim.style.display='none';
-    localStorage.setItem('mp_sb','0');
-  }
-  // Always hide sidebar behind drawer on mobile
-  if(isMobile()){sbHide();}
-  else if(localStorage.getItem('mp_sb')==='0'){sbHide();}
-  id('navSbBtn').onclick=()=>app.classList.contains('sb-off')?sbShow():sbHide();
-  id('sbTab').onclick=sbShow;
-  id('sbCloseBtn').onclick=sbHide;
-  if(scrim)scrim.onclick=sbHide;
-  window.addEventListener('resize',()=>{
-    if(isMobile()&&!app.classList.contains('sb-off'))scrim.style.display='block';
-    else if(!isMobile())scrim.style.display='none';
-  });
-  // Expose sbShow globally so mobile nav menu button can call it
-  window._sbShow=sbShow;
-  window._sbHide=sbHide;
-})();
+/* SIDEBAR TOGGLE */
+var sbVisible = false;
+function sbShow(){
+  sbVisible=true;
+  id('app').classList.remove('sb-off');
+  id('sbScrim').style.display='block';
+}
+function sbHide(){
+  sbVisible=false;
+  id('app').classList.add('sb-off');
+  id('sbScrim').style.display='none';
+}
+// Start hidden on mobile
+if(window.innerWidth<=900){ sbHide(); } else { sbVisible=true; }
+id('navSbBtn').onclick=function(){ sbVisible?sbHide():sbShow(); };
+id('sbCloseBtn').onclick=sbHide;
+id('sbScrim').onclick=sbHide;
 
-/* ─── MOBILE NAV ─── */
-(function(){
-  const mNav = id('mobileNav');
-  if (!mNav) return;
-
-  const isMobile = () => window.innerWidth <= 600;
-
-  function showMobileNav(){
-    if(isMobile()){
-      mNav.style.display = 'flex';
-    } else {
-      mNav.style.display = 'none';
-    }
-  }
-
-  // Show immediately on mobile — don't wait for pitcher load
-  showMobileNav();
-  window.addEventListener('resize', showMobileNav);
-
-  // Switch pane from mobile nav
-  mNav.querySelectorAll('.mnb').forEach(btn => {
-    if(btn.id === 'mobileMenuBtn') return;
-    btn.addEventListener('click', () => {
-      // Only switch pane if data is loaded
-      if(pitchers.length === 0 || selected < 0){
-        // No data yet — open sidebar instead so they can load
-        if(window._sbShow) window._sbShow();
-        return;
-      }
-      const p = btn.dataset.p;
-      currentPane = p;
-      id('nav').querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.p === p));
-      id('wrap').querySelectorAll('.pane').forEach(pn => pn.classList.toggle('on', pn.dataset.v === p));
-      mNav.querySelectorAll('.mnb').forEach(b => b.classList.remove('on'));
-      btn.classList.add('on');
-      const cs = id('cscroll'); if(cs) cs.scrollTop = 0;
+/* MOBILE BOTTOM NAV */
+var mNav=id('mobileNav');
+function syncMobileNav(p){
+  if(!mNav)return;
+  mNav.querySelectorAll('.mnb').forEach(function(b){ b.classList.toggle('on', b.dataset.p===p); });
+}
+if(mNav){
+  mNav.querySelectorAll('.mnb').forEach(function(btn){
+    if(btn.id==='mobileMenuBtn'){ btn.addEventListener('click',sbShow); return; }
+    btn.addEventListener('click',function(){
+      if(!pitchers.length||selected<0){ sbShow(); return; }
+      var p=btn.dataset.p;
+      currentPane=p;
+      id('wrap').querySelectorAll('.pane').forEach(function(pn){ pn.classList.toggle('on',pn.dataset.v===p); });
+      id('nav').querySelectorAll('.nb').forEach(function(b){ b.classList.toggle('on',b.dataset.p===p); });
+      syncMobileNav(p);
+      var cs=id('cscroll');if(cs)cs.scrollTop=0;
     });
   });
+}
 
-  // Menu button always opens sidebar
-  const menuBtn = id('mobileMenuBtn');
-  if(menuBtn) menuBtn.addEventListener('click', () => {
-    if(window._sbShow) window._sbShow();
-  });
-
-  window._showMobileNav = showMobileNav;
-})();
-
+/* COLLAPSIBLE SIDEBAR SECTIONS */
 function initCollapse(hdrId,bodyId){
   const hdr=id(hdrId),body=id(bodyId);if(!hdr||!body)return;
   body.style.maxHeight=body.scrollHeight+800+'px';
   hdr.onclick=()=>{
     const closing=!body.classList.contains('shut');
-    if(closing){
-      body.style.maxHeight=body.scrollHeight+'px';
-      requestAnimationFrame(()=>{body.style.maxHeight='0';body.classList.add('shut');hdr.classList.remove('open')});
-    } else {
-      body.classList.remove('shut');hdr.classList.add('open');
-      body.style.maxHeight=body.scrollHeight+800+'px';
-    }
+    if(closing){body.style.maxHeight=body.scrollHeight+'px';requestAnimationFrame(()=>{body.style.maxHeight='0';body.classList.add('shut');hdr.classList.remove('open')});}
+    else{body.classList.remove('shut');hdr.classList.add('open');body.style.maxHeight=body.scrollHeight+800+'px';}
   };
 }
 initCollapse('ctrlHdr','ctrlBody');
 initCollapse('listHdr','listBody');
 
-/* ─── NAV ─── */
-id('nav').querySelectorAll('.nb').forEach(b=>b.addEventListener('click',()=>{
-  currentPane=b.dataset.p;
-  switchPane(currentPane);
-}));
-function switchPane(p){
-  id('nav').querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
-  id('wrap').querySelectorAll('.pane').forEach(pn=>pn.classList.toggle('on',pn.dataset.v===p));
-}
+/* TOP NAV */
+id('nav').querySelectorAll('.nb').forEach(function(b){
+  b.addEventListener('click',function(){
+    currentPane=b.dataset.p;
+    id('nav').querySelectorAll('.nb').forEach(function(x){x.classList.toggle('on',x.dataset.p===currentPane);});
+    id('wrap').querySelectorAll('.pane').forEach(function(pn){pn.classList.toggle('on',pn.dataset.v===currentPane);});
+    syncMobileNav(currentPane);
+  });
+});
 
-/* ─── RENDER LIST ─── */
+/* RENDER LIST */
 function renderList(){
   id('pcount').textContent=`${filtered.length} pitcher${filtered.length===1?'':'s'}`;
   if(!filtered.length){id('plist').innerHTML='<div class="nodata" style="padding:12px 16px">No results</div>';return}
   id('plist').innerHTML=filtered.map(i=>{
     const p=pitchers[i],s=p.stats||{},h=['L','R'].includes(p.hand)?p.hand:'?';
     return `<div class="prow${i===selected?' on':''}" data-i="${i}">
-      <div class="pmain">
-        <div class="pname">${esc(p.name)}</div>
-        <div class="psub">${esc(p.team||'—')} · ${Number(s.total||0).toLocaleString()}p · ${Number(s.games||0)}g</div>
-      </div>
+      <div class="pmain"><div class="pname">${esc(p.name)}</div><div class="psub">${esc(p.team||'—')} · ${Number(s.total||0).toLocaleString()}p · ${Number(s.games||0)}g</div></div>
       <div class="phand ${h}">${esc(h)}</div>
     </div>`;
   }).join('');
-  id('plist').querySelectorAll('.prow').forEach(n=>n.addEventListener('click',()=>{
-    selected=parseInt(n.dataset.i,10);
-    renderList();renderSelected();
-    // Auto-close sidebar on mobile after selecting pitcher
-    if(window.innerWidth<=900){
-      id('app').classList.add('sb-off');
-      const scrim=id('sbScrim');if(scrim)scrim.style.display='none';
-    }
-  }));
+  id('plist').querySelectorAll('.prow').forEach(function(n){
+    n.addEventListener('click',function(){
+      selected=parseInt(n.dataset.i,10);
+      renderList();renderSelected();
+      // Auto-close sidebar on mobile after picking pitcher
+      if(window.innerWidth<=900) sbHide();
+    });
+  });
 }
-
-/* ─── RENDER SELECTED ─── */
 function renderSelected(){
   const nav=id('nav'),wrap=id('wrap');
   if(selected<0||!pitchers[selected]){
@@ -2508,66 +2327,13 @@ function streakHTML(items){
 
 <script>
 /* ─── PWA: Register Service Worker ─── */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('[SW] Registered, scope:', reg.scope))
-      .catch(err => console.warn('[SW] Registration failed:', err));
+
+/* PWA SERVICE WORKER */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW:',e);});
   });
 }
-
-/* ─── PWA: "Add to Home Screen" install prompt ─── */
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  // Show a subtle install banner after 3 seconds on mobile
-  if (window.innerWidth <= 900) {
-    setTimeout(() => {
-      if (!deferredPrompt) return;
-      const banner = document.createElement('div');
-      banner.id = 'installBanner';
-      banner.innerHTML = `
-        <div style="
-          position:fixed;bottom:72px;left:12px;right:12px;z-index:9999;
-          background:#1A2E1A;color:#E8F0E8;border-radius:14px;
-          padding:14px 16px;display:flex;align-items:center;gap:12px;
-          box-shadow:0 8px 32px rgba(0,0,0,.35);
-          font-family:-apple-system,sans-serif;
-          animation:slideUp .3s ease;
-        ">
-          <span style="font-size:28px">⚾</span>
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:14px">Install Money Printer</div>
-            <div style="font-size:11px;opacity:.7;margin-top:2px">Add to home screen for the best experience</div>
-          </div>
-          <button id="installBtn" style="
-            background:#C0392B;color:#fff;border:none;border-radius:8px;
-            padding:8px 14px;font:700 12px/1 sans-serif;cursor:pointer;
-            flex-shrink:0;
-          ">Install</button>
-          <button id="installDismiss" style="
-            background:none;border:none;color:#8BAE8B;font-size:18px;
-            cursor:pointer;padding:4px;flex-shrink:0;line-height:1;
-          ">✕</button>
-        </div>
-      `;
-      document.body.appendChild(banner);
-      document.getElementById('installBtn').onclick = async () => {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        banner.remove();
-      };
-      document.getElementById('installDismiss').onclick = () => banner.remove();
-    }, 3000);
-  }
-});
-
-/* Add slide-up animation */
-const styleEl = document.createElement('style');
-styleEl.textContent = '@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
-document.head.appendChild(styleEl);
 </script>
 </body>
 </html>
