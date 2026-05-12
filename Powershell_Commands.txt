@@ -1,0 +1,3 @@
+cd C:\Users\ryan\Downloads\Arsenal-scout
+
+python -m uvicorn app:app --reload
